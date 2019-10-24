@@ -1,14 +1,17 @@
 class RegisterController < ApplicationController 
     def create
-        user = User.new
-        user.name = params['name'],
-        user.email = params['email'],
-        user.imageurl = params['imageURL'],
-        user.uid = params['uid'],
-        user.save
+        getUser = User.find_by(uid: params['uid'])
+        if (getUser == nil) 
+            getUser = User.new
+            getUser.uid = params['uid']
+        end
+        getUser.name = params['name']
+        getUser.email = params['email']
+        getUser.imageurl = params['imageURL']
+        getUser.save
         render json: {
             status: 'ok register controller',
-            user: user
+            user: getUser
         }
     end
 end
